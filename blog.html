@@ -12,10 +12,15 @@
 <body>
     <nav class="navbar">
         <div class="logo"><a href="index.html">Nova<span>Viajes</span></a></div>
-        <div class="hamburger">
-            <div class="line"></div>
-            <div class="line"></div>
-            <div class="line"></div>
+        <div class="nav-actions" style="display:flex; align-items:center; gap:1.5rem; margin-left:auto; z-index:102;">
+            <div class="cart-toggle" id="cartToggle" style="cursor:pointer; display:flex; align-items:center; gap:0.5rem; font-size:1.2rem;">
+                🛒 <span class="cart-count" id="cartCount" style="background:var(--accent-1); color:#000; font-weight:bold; border-radius:50%; padding:0.1rem 0.5rem; font-size:0.8rem; transform: translateY(-5px);">0</span>
+            </div>
+            <div class="hamburger">
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+            </div>
         </div>
         <ul class="nav-links">
             <li><a href="index.html#destinos">Destinos</a></li>
@@ -122,6 +127,25 @@
             <p>&copy; 2026 NovaViajes. Todos los derechos reservados.</p>
         </div>
     </footer>
+    <!-- E-commerce Sidebar -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <aside class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h2>Tu Viaje</h2>
+            <button id="closeCart" class="close-cart">&times;</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <!-- Items injected by JS -->
+        </div>
+        <div class="cart-footer">
+            <div class="subtotal" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+                <span>Subtotal:</span>
+                <span id="cartTotal" style="color:var(--accent-1); font-weight:bold; font-size:1.5rem;">$0 USD</span>
+            </div>
+            <button class="btn-primary magnetic-btn" id="checkoutBtn" style="width: 100%; border:none; padding: 1.2rem; margin-top:0.5rem;">Finalizar Cotización</button>
+        </div>
+    </aside>
+
     <script src="app.js"></script>
 </body>
 </html>
