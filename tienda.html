@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda Oficial | FreeTravel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <style>
+        .shop-header { text-align: center; margin-bottom: 4rem; padding-top: 10rem; }
+        .shop-header h1 { font-size: 3.5rem; margin-bottom: 1rem; color: var(--accent-1); }
+        .shop-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2.5rem; max-width: 1200px; margin: 0 auto; padding-bottom: 6rem; padding-inline: 5%; }
+        .shop-card { background: rgba(8,12,19,0.9); border: 1px solid rgba(255,255,255,0.05); border-radius: 24px; overflow: hidden; transition: var(--transition-smooth); }
+        .shop-card:hover { transform: translateY(-10px); border-color: rgba(0,242,254,0.3); box-shadow: 0 15px 40px rgba(0,0,0,0.5); }
+        .shop-img { width: 100%; height: 250px; background-size: cover; background-position: center; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .shop-info { padding: 2rem; position: relative; }
+        .shop-price { position: absolute; top: -20px; right: 2rem; background: var(--accent-1); color: #000; padding: 0.5rem 1.5rem; border-radius: 50px; font-weight: bold; box-shadow: 0 5px 15px rgba(0,242,254,0.3); }
+        .shop-info h3 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+        .shop-info p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.6; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo"><a href="index.html" style="color:var(--text-color);text-decoration:none;">Free<span>Travel</span></a></div>
+        <div class="nav-actions" style="display:flex; align-items:center; gap:1.5rem; margin-left:auto; z-index:102;">
+            <div class="cart-toggle" id="cartToggle" style="cursor:pointer; display:flex; align-items:center; gap:0.5rem; font-size:1.2rem;">
+                🛒 <span class="cart-count" id="cartCount" style="background:var(--accent-1); color:#000; font-weight:bold; border-radius:50%; padding:0.1rem 0.5rem; font-size:0.8rem; transform: translateY(-5px);">0</span>
+            </div>
+            <div class="hamburger">
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+            </div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html#destinos">Destinos</a></li>
+            <li><a href="index.html#experiencias">Experiencias</a></li>
+            <li><a href="servicios.html">Servicios</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="tienda.html" style="color:var(--accent-1);">Tienda</a></li>
+            <li><a href="index.html#contacto">Contacto</a></li>
+        </ul>
+    </nav>
+
+    <div class="shop-header">
+        <h1>Tienda Oficial</h1>
+        <p style="color:var(--text-muted); font-size:1.2rem;">Reserva de forma inmediata tus expediciones y addons corporativos.</p>
+    </div>
+
+    <div class="shop-grid">
+        <div class="shop-card">
+            <div class="shop-img" style="background-image:url('https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?auto=format&fit=crop&w=800&q=80')"></div>
+            <div class="shop-info">
+                <div class="shop-price">$5,500 USD</div>
+                <h3>Santuario en Bali</h3>
+                <p>12 Días de purificación, yates privados y villas flotantes entre la selva tropical sagrada.</p>
+                <button class="btn-primary magnetic-btn add-to-cart" style="width:100%; border:none; padding:1rem;" data-id="bali" data-name="Santuario en Bali" data-price="5500" data-img="https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?w=100&q=80">Añadir Reserva</button>
+            </div>
+        </div>
+        <div class="shop-card">
+            <div class="shop-img" style="background-image:url('https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&w=800&q=80')"></div>
+            <div class="shop-info">
+                <div class="shop-price">$7,800 USD</div>
+                <h3>Diamante de París</h3>
+                <p>7 Días de acceso élite a Louvre vacío, Cenas super-premium y traslados Rolls-Royce garantizados.</p>
+                <button class="btn-primary magnetic-btn add-to-cart" style="width:100%; border:none; padding:1rem;" data-id="paris" data-name="Diamante de París" data-price="7800" data-img="https://images.unsplash.com/photo-1499856871958-5b9627545d1a?w=100&q=80">Añadir Reserva</button>
+            </div>
+        </div>
+        <div class="shop-card">
+            <div class="shop-img" style="background-image:url('https://images.unsplash.com/photo-1549144511-f099e773c147?auto=format&fit=crop&w=800&q=80')"></div>
+            <div class="shop-info">
+                <div class="shop-price">$6,200 USD</div>
+                <h3>Evasión Santorini</h3>
+                <p>9 Días de arquitectura cóncava superior, helicóptero local y atardeceres exclusivos de yate.</p>
+                <button class="btn-primary magnetic-btn add-to-cart" style="width:100%; border:none; padding:1rem;" data-id="santorini" data-name="Evasión Santorini" data-price="6200" data-img="https://images.unsplash.com/photo-1549144511-f099e773c147?w=100&q=80">Añadir Reserva</button>
+            </div>
+        </div>
+        <div class="shop-card">
+            <div class="shop-img" style="background-image:url('https://images.unsplash.com/photo-1542456453-61ce40ce208d?auto=format&fit=crop&w=800&q=80')"></div>
+            <div class="shop-info">
+                <div class="shop-price">$12,000 USD</div>
+                <h3>Jet Privado Extendido</h3>
+                <p>Vuelo transoceánico privado. Evita filas comerciales y salas llenas aglomeradas.</p>
+                <button class="btn-primary magnetic-btn add-to-cart" style="width:100%; border:none; padding:1rem;" data-id="jet_addon" data-name="Servicio Jet Privado" data-price="12000" data-img="https://images.unsplash.com/photo-1542456453-61ce40ce208d?w=100&q=80">Añadir Adicional</button>
+            </div>
+        </div>
+        <div class="shop-card">
+            <div class="shop-img" style="background-image:url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80')"></div>
+            <div class="shop-info">
+                <div class="shop-price">$1,500 USD</div>
+                <h3>Chef Ejecutivo Global</h3>
+                <p>Chef con estrellas Michelin cocinando en privado en tu villa durante días íntegros.</p>
+                <button class="btn-primary magnetic-btn add-to-cart" style="width:100%; border:none; padding:1rem;" data-id="gastro_addon" data-name="Gastronomía VIP Chef" data-price="1500" data-img="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=100&q=80">Añadir Adicional</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand scroll-reveal">
+                <h2>Free<span>Travel</span></h2>
+                <p>Elevando el estándar de la aventura.</p>
+                <div style="margin-top:1.5rem; font-size:0.9rem; color:var(--text-muted); line-height:1.8;">
+                    <p>📍 Paseo de la Castellana 42, Madrid</p>
+                    <p>📞 +34 900 123 456</p>
+                    <p>✉️ enma.vip@freetravel.com</p>
+                </div>
+            </div>
+            <div class="footer-links scroll-reveal" style="transition-delay: 100ms;">
+                <h4>Enlaces</h4>
+                <ul>
+                    <li><a href="privacidad.html">Privacidad</a></li>
+                    <li><a href="terminos.html">Términos</a></li>
+                    <li><a href="ayuda.html">Ayuda</a></li>
+                </ul>
+            </div>
+            <div class="footer-cta scroll-reveal" style="transition-delay: 200ms;">
+                <h4>Newsletter</h4>
+                <div class="newsletter">
+                    <input type="email" placeholder="Tu email...">
+                    <button>Unirse</button>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 FreeTravel. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- E-commerce Sidebar -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <aside class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h2>Tu Viaje</h2>
+            <button id="closeCart" class="close-cart">&times;</button>
+        </div>
+        <div class="cart-items" id="cartItems"></div>
+        <div class="cart-footer">
+            <div class="subtotal" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+                <span>Subtotal:</span>
+                <span id="cartTotal" style="color:var(--accent-1); font-weight:bold; font-size:1.5rem;">$0 USD</span>
+            </div>
+            <button class="btn-primary magnetic-btn" id="checkoutBtn" style="width: 100%; border:none; padding: 1.2rem; margin-top:0.5rem;">Finalizar Cotización</button>
+        </div>
+    </aside>
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

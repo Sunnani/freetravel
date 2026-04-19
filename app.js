@@ -165,9 +165,11 @@ function updateCartUI() {
         <div class="cart-item" style="display:flex; align-items:center; gap:1rem; padding:1rem; background:rgba(255,255,255,0.03); border-radius:12px; margin-bottom:1rem; animation: fadeUp 0.3s ease forwards; animation-delay: ${i*0.05}s; opacity:0; transform:translateY(10px);">
             <div style="flex:1;">
                 <h4 style="margin:0; font-size:1rem; color:var(--accent-1);">${item.name}</h4>
-                <p style="margin:0; color:var(--text-muted); font-size:0.9rem;">$${item.price.toLocaleString()} x ${item.quantity}</p>
+                <p style="margin:0; color:var(--text-muted); font-size:0.85rem;">$${item.price.toLocaleString()} x ${item.quantity}</p>
+                ${item.dates ? `<p style="margin:0.2rem 0 0 0; color:#fff; font-size:0.75rem;">📅 ${item.dates}</p>` : ''}
+                ${item.clientName ? `<p style="margin:0; color:#cbd5e1; font-size:0.75rem;">👤 ${item.clientName}</p>` : ''}
             </div>
-            <button class="remove-item" data-id="${item.id}" style="background:transparent; border:none; color:#f87171; font-size:1.5rem; cursor:pointer;">&times;</button>
+            <button class="remove-item" data-id="${item.uniqueId || item.id}" style="background:transparent; border:none; color:#f87171; font-size:1.5rem; cursor:pointer;">&times;</button>
         </div>
     `).join('');
     
@@ -175,7 +177,7 @@ function updateCartUI() {
     document.querySelectorAll('.remove-item').forEach(btn => {
         btn.addEventListener('click', (e) => {
             const id = e.target.dataset.id;
-            cart = cart.filter(item => item.id !== id);
+            cart = cart.filter(item => (item.uniqueId || item.id) !== id);
             saveCart();
             updateCartUI();
         });
@@ -195,34 +197,95 @@ document.querySelectorAll('#cartToggle').forEach(btn => {
     btn.addEventListener('click', toggleCart);
 });
 
-// Add to cart buttons
-addToCartBtns.forEach(btn => {
+// Booking Modal Injected Logic
+const bookingOverlay = document.createElement('div');
+bookingOverlay.className = 'booking-overlay';
+bookingOverlay.innerHTML = `
+    <div class="booking-modal">
+        <button class="close-cart" style="position:absolute; top:20px; right:20px; z-index:10; font-size:2rem; cursor:pointer; color:#fff; background:none; border:none;" id="closeBooking">&times;</button>
+        <div class="modal-step active" id="b-step1">
+            <h3>Paso 1: Agenda VIP</h3>
+            <p style="color:var(--text-muted); margin-bottom:1rem;">Seleccione las fechas en las que desea realizar la expedición.</p>
+            <input type="text" class="modal-input" id="b-dates" placeholder="Click para abrir el calendario..." readonly>
+            <button class="btn-primary magnetic-btn" id="b-nextBtn" style="width:100%; border:none; padding:1.2rem; margin-top:2rem;">Siguiente Paso →</button>
+        </div>
+        <div class="modal-step" id="b-step2">
+            <h3>Paso 2: Personalización</h3>
+            <p style="color:var(--text-muted); margin-bottom:1rem;">La cotización final se extenderá a usted mediante túnel cifrado.</p>
+            <input type="text" class="modal-input" id="b-name" placeholder="Nombre Completo Titular">
+            <input type="email" class="modal-input" id="b-email" placeholder="Correo Corporativo o Personal">
+            <button class="btn-primary magnetic-btn" id="b-confirmBtn" style="width:100%; border:none; padding:1.2rem; margin-top:2rem;">Confirmar Viaje y Añadir 🔒</button>
+            <p style="text-align:center; font-size:0.8rem; margin-top:1rem; color:var(--text-muted); cursor:pointer;" id="b-backBtn">← Volver a fechas</p>
+        </div>
+    </div>
+`;
+document.body.appendChild(bookingOverlay);
+
+// Only initialize Flatpickr if imported globally on the page
+if(typeof flatpickr !== 'undefined') {
+    flatpickr('#b-dates', { mode: 'range', minDate: 'today', dateFormat: 'd/m/Y' });
+}
+
+let pendingItem = null;
+
+document.getElementById('closeBooking').addEventListener('click', () => bookingOverlay.classList.remove('active'));
+
+// Step 1 to Step 2
+document.getElementById('b-nextBtn').addEventListener('click', () => {
+    const dates = document.getElementById('b-dates').value;
+    if(!dates) return alert('Por favor, seleccione las fechas para la expedición.');
+    pendingItem.dates = dates;
+    document.getElementById('b-step1').classList.remove('active');
+    document.getElementById('b-step2').classList.add('active');
+});
+
+// Step 2 to back
+document.getElementById('b-backBtn').addEventListener('click', () => {
+    document.getElementById('b-step2').classList.remove('active');
+    document.getElementById('b-step1').classList.add('active');
+});
+
+// Step 2 to Cart Injection (Final Confirm)
+document.getElementById('b-confirmBtn').addEventListener('click', () => {
+    const name = document.getElementById('b-name').value;
+    const email = document.getElementById('b-email').value;
+    if(!name || !email) return alert('Debes completar tus datos.');
+    pendingItem.clientName = name;
+    pendingItem.clientEmail = email;
+    
+    // Create a unique ID combining item id and dates to allow multiple separate bookings of the same package
+    const uniqueId = pendingItem.id + '-' + pendingItem.dates.replace(/\D/g, '');
+    pendingItem.uniqueId = uniqueId;
+    
+    const existing = cart.find(i => i.uniqueId === uniqueId);
+    if(existing) { existing.quantity += 1; } else { cart.push(pendingItem); }
+    
+    saveCart();
+    updateCartUI();
+    bookingOverlay.classList.remove('active');
+    toggleCart(); // Auto-open lateral cart to show success
+    
+    // Reset Modal format for next time
+    setTimeout(() => {
+        document.getElementById('b-step2').classList.remove('active');
+        document.getElementById('b-step1').classList.add('active');
+        document.getElementById('b-dates').value = '';
+        document.getElementById('b-name').value = '';
+        document.getElementById('b-email').value = '';
+    }, 500);
+});
+
+// Add to cart buttons (Now Opens Booking Modal instead of raw adding)
+document.querySelectorAll('.add-to-cart').forEach(btn => {
     btn.addEventListener('click', (e) => {
-        const id = btn.dataset.id;
-        const name = btn.dataset.name;
-        const price = parseInt(btn.dataset.price);
-        
-        const existing = cart.find(i => i.id === id);
-        if(existing) {
-            existing.quantity += 1;
-        } else {
-            cart.push({ id, name, price, quantity: 1 });
-        }
-        
-        saveCart();
-        updateCartUI();
-        toggleCart(); // Auto open cart to show visual confirmation
-        
-        // Button feedback
-        const originalText = btn.innerHTML;
-        btn.innerHTML = "¡Añadido! ✓";
-        btn.style.background = "#22c55e"; // Success green
-        btn.style.color = "#fff";
-        setTimeout(() => {
-            btn.innerHTML = originalText;
-            btn.style.background = "";
-            btn.style.color = "";
-        }, 3000);
+        pendingItem = {
+            id: btn.dataset.id,
+            name: btn.dataset.name,
+            price: parseInt(btn.dataset.price),
+            img: btn.dataset.img || '',
+            quantity: 1
+        };
+        bookingOverlay.classList.add('active');
     });
 });
 

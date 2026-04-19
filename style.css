@@ -462,3 +462,15 @@ ul { list-style: none; }
 .cart-items::-webkit-scrollbar-thumb { background: var(--accent-1); border-radius: 6px; }
 .cart-footer { padding: 2rem; border-top: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.2); }
 
+/* Booking Modal Overlay */
+.booking-overlay { position: fixed; top:0; left:0; width:100vw; height:100vh; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); -webkit-backdrop-filter:blur(8px); z-index: 2000; opacity: 0; visibility: hidden; transition: 0.3s ease; display:flex; justify-content:center; align-items:center; }
+.booking-overlay.active { opacity: 1; visibility: visible; }
+.booking-modal { background: rgba(8, 12, 19, 0.98); border: 1px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 3rem; width: 90%; max-width: 500px; box-shadow: 0 25px 60px rgba(0,0,0,0.6); position: relative; transform: translateY(30px); transition: 0.4s cubic-bezier(0.175,0.885,0.32,1.275); }
+.booking-overlay.active .booking-modal { transform: translateY(0); }
+.booking-modal h3 { font-size: 1.8rem; color: var(--accent-1); margin-bottom: 0.5rem; }
+.booking-modal p { margin-bottom: 2rem; color: var(--text-muted); font-size: 0.95rem; }
+.modal-step { display: none; animation: fadeUp 0.4s ease forwards; }
+.modal-step.active { display: block; }
+.modal-input { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 1.2rem; border-radius: 12px; font-family: var(--font-primary); font-size: 1rem; margin-bottom: 1rem; outline: none; box-sizing: border-box; }
+.modal-input:focus { border-color: var(--accent-1); }
+
