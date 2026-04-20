@@ -11,11 +11,17 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/dark.css">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <nav class="navbar">
         <div class="logo"><a href="index.html" style="color:var(--text-color);text-decoration:none;">Free<span>Travel</span></a></div>
+        
         <div class="nav-actions" style="display:flex; align-items:center; gap:1.5rem; margin-left:auto; z-index:102;">
+            <a href="https://www.instagram.com/free.travelagencia" target="_blank" rel="noopener noreferrer" style="color:var(--text-color); font-size:1.4rem; text-decoration:none; transition: color 0.3s ease;" onmouseover="this.style.color='var(--accent-1)'" onmouseout="this.style.color='var(--text-color)'">
+                <i class="fab fa-instagram"></i>
+            </a>
+    
             <div class="cart-toggle" id="cartToggle" style="cursor:pointer; display:flex; align-items:center; gap:0.5rem; font-size:1.2rem;">
                 🛒 <span class="cart-count" id="cartCount" style="background:var(--accent-1); color:#000; font-weight:bold; border-radius:50%; padding:0.1rem 0.5rem; font-size:0.8rem; transform: translateY(-5px);">0</span>
             </div>
@@ -25,6 +31,7 @@
                 <div class="line"></div>
             </div>
         </div>
+    
         <ul class="nav-links">
             <li><a href="index.html#destinos">Destinos</a></li>
             <li><a href="index.html#experiencias">Experiencias</a></li>
@@ -34,7 +41,7 @@
             <li><a href="index.html#contacto">Contacto</a></li>
         </ul>
         <a href="#contacto" class="btn-primary magnetic-btn">Empezar viaje</a>
-    </nav>
+</nav>
 
     <header class="hero">
         <div class="hero-bg"></div>
